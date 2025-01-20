@@ -38,7 +38,7 @@ const questions = [
     type: "list",
     name: "license",
     message: "Provide a license:",
-    choices: ["MIT", "Apache-2.0", "BSL-1.0", "0BSD", "NONE"],
+    choices: ["MIT", "Apache-2.0", "BSL-1.0", "0BSD", "None"],
   },
   {
     type: "input",
@@ -57,13 +57,13 @@ const questions = [
 // If there is no license, return an empty string
 function renderLicenseBadge(badge) {
         if (badge === 'MIT') {
-          return '![Badge: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)';
+          return '![Badge: MIT](https://img.shields.io/badge/License-MIT-green)';
         } else if (badge === 'Apache-2.0') {
-          return '![Badge](https://img.shields.io/badge/License-Apache%202.0-blue.svg)';
+          return '![Badge](https://img.shields.io/badge/License-Apache_2.0-yellow)';
         } else if (badge === 'BSL-1.0') {
-          return '![Badge](https://img.shields.io/badge/License-Boost%201.0-lightblue.svg)';
+          return '![Badge](https://img.shields.io/badge/License-BSL_1.0-purple)';
         } else if (badge === '0BSD') {
-          return '![Badge](https://img.shields.io/badge/License-0BSD-blue.svg)';
+          return '![Badge](https://img.shields.io/badge/License-0BSD-blue)';
         } else {
           return '';
         }
@@ -85,29 +85,26 @@ function renderLicenseLink(license) {
         } else {
           return '';
         }
-}
-
+    }
+    
 // TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-// function renderLicenseSection(license) {
-//     if (license) {
-//         return `
-// ## License
-// This project is licensed under the ${answers.license} license..
-//         `;
-//     } else {
-//         return '';
-//     }
-// }
 function renderLicenseSection(license) {
-    if (license === 'None') {
-      return '';
+    if (license === 'MIT') {
+        return '![license: MIT](https://opensource.org/licenses/MIT)';
+    } else if (license === 'Apache-2.0') {
+        return '![license](https://opensource.org/licenses/Apache-2.0)';
+    } else if (license === 'BSL-1.0') {
+        return '![license](https://opensource.org/licenses/BSL-1.0)';
+    } else if (license === '0BSD') {
+        return '![license](https://opensource.org/licenses/0BSD)';
+    } else {
+        return '';
     }
   }
 
 // TODO: Create a function to write README file
 function writeToFile(README, data) {
-  fs.writeFile("README.MD", data, (error) => {
+  fs.writeFile("README", data, (error) => {
     error ? console.error(error) : console.log("README successfully created!");
   });
 }
@@ -117,37 +114,37 @@ function generateReadme(answers) {
   return `
 # ${answers.title}
 
-##Description
+## Description
 ${answers.description}
 
-##Badge
+## Badge
 ${renderLicenseBadge(answers.license)}
 
-##Table of Contents
--[Installation](#installation)
--[Usage](#usage)
--[License](#license)
--[Contributing](#contributing)
--[Test Instructions](#testinstructions)
--[Questions](#questions)
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributing](#contributing)
+- [Test Instructions](#testinstructions)
+- [Questions](#questions)
    
-##Installation <a name="installation"></a>
+## Installation 
 ${answers.installation}
 
-##Usage <a name="usage"></a>
+## Usage 
 ${answers.usage}
 
-#License <a name="license"></a>
-This project is licensed under ${answers.license}. 
+## License 
+This project is licensed under ${renderLicenseLink(answers.license)}. 
 
-##Contributing <a name="contributing"></a>
+## Contributing 
 ${answers.contributing}
 
-##Test Instructions <a name="testinstructions"></a>
+## Test Instructions 
 ${answers.tests}
 
-##Questions <a name="questions"></a>
-If there's any additional questions I can answer for you, you can reach out to me at https://github.com/${answers.github} or [email](mailto:${answers.email}).
+## Questions 
+If there's any additional questions I can answer for you, you can reach out to me at https://github.com/${answers.github} or [${answers.email}](mailto:${answers.email}).
    
    `;
 }
@@ -157,7 +154,7 @@ If there's any additional questions I can answer for you, you can reach out to m
 function init() {
   inquirer.prompt(questions).then((answers) => {
     const readmeContent = generateReadme(answers);
-    writeToFile("README.md", readmeContent);
+    writeToFile("README", readmeContent);
   });
 }
 
