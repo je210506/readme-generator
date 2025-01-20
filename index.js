@@ -104,7 +104,7 @@ function renderLicenseSection(license) {
 
 // TODO: Create a function to write README file
 function writeToFile(README, data) {
-  fs.writeFile("README", data, (error) => {
+  fs.writeFile("README.md", data, (error) => {
     error ? console.error(error) : console.log("README successfully created!");
   });
 }
@@ -154,7 +154,7 @@ If there's any additional questions I can answer for you, you can reach out to m
 function init() {
   inquirer.prompt(questions).then((answers) => {
     const readmeContent = generateReadme(answers);
-    writeToFile("README", readmeContent);
+    writeToFile("README.md", readmeContent);
   });
 }
 
